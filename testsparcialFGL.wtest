@@ -1,0 +1,69 @@
+import parcial.*
+
+test"emociones pueden liberarse y otras no"{
+    const enojo = new Furia()
+    const feliz = new Alegria(intensidad= 75)
+    const tristeza = new Tristeza(intensidad = 25 )
+    const rechazo = new Desagrado(intensidad= 33)
+    const ansioso = new Ansiedad(intensidad= 100)
+    const enojadisimo = new Furia(intensidad= 10000)
+    const federico = new Persona(edad=20,emociones=[enojo,feliz], palabrotas=["Que gran tecnico van gaal","recorcholis","rayos y centellas"])
+    const lionel = new Persona (edad = 37, emociones =[ansioso,tristeza], palabrotas=["QueMiraBobo"])
+    const andres = new Persona (edad = 73, emociones = [enojadisimo,rechazo], palabrotas = ["AndaPalla"])
+    
+ 
+
+    assert.that(enojo.puedeLiberarse(federico))
+    assert.that(feliz.puedeLiberarse(federico))
+    assert.notThat(ansioso.puedeLiberarse(lionel))
+    assert.notThat(tristeza.puedeLiberarse(lionel))
+    assert.that(enojadisimo.puedeLiberarse(andres))
+    assert.notThat(rechazo.puedeLiberarse(andres))
+}
+
+test "Un grupo vive un evento y aumentan los eventos de las emociones"{
+    const enojo = new Furia()
+    const feliz = new Alegria(intensidad= 75)
+    const tristeza = new Tristeza(intensidad = 25 )
+    const rechazo = new Desagrado(intensidad= 33)
+    const ansioso = new Ansiedad(intensidad= 100)
+    const enojadisimo = new Furia(intensidad= 10000)
+    const federico = new Persona(edad=20,emociones=[enojo,feliz], palabrotas=["Que gran tecnico van gaal","recorcholis","rayos y centellas"])
+    const lionel = new Persona (edad = 37, emociones =[ansioso,tristeza], palabrotas=["QueMiraBobo"])
+    const andres = new Persona (edad = 73, emociones = [enojadisimo,rechazo], palabrotas = ["AndaPalla"])
+
+
+
+    const semifinalMundial = new Evento (descripcion = "penales NOOO", impacto = 1000)
+    const argentinos = new Grupo(integrantes = [federico,lionel,andres])
+    argentinos.vivirEventoEnGrupo(semifinalMundial)
+
+    assert.equals(enojo.eventosVividos(),1)
+    assert.equals(feliz.eventosVividos(),1)
+    assert.equals(tristeza.eventosVividos(),1)
+    assert.equals(rechazo.eventosVividos(),1)
+    assert.equals(ansioso.eventosVividos(),1)
+    assert.equals(enojadisimo.eventosVividos(),1)
+}
+
+test "Un grupo vive un evento y se producen cambios "{
+    const enojo = new Furia()
+    const feliz = new Alegria(intensidad= 75)
+    const tristeza = new Tristeza(intensidad = 25 )
+    const rechazo = new Desagrado(intensidad= 33)
+    const ansioso = new Ansiedad(intensidad= 100)
+    const enojadisimo = new Furia(intensidad= 10000)
+    const federico = new Persona(edad=20,emociones=[enojo,feliz], palabrotas=["Que gran tecnico van gaal","recorcholis","rayos y centellas"])
+    const lionel = new Persona (edad = 37, emociones =[ansioso,tristeza], palabrotas=["QueMiraBobo"])
+    const andres = new Persona (edad = 73, emociones = [enojadisimo,rechazo], palabrotas = ["AndaPalla"])
+    const semifinalMundial = new Evento (descripcion = "penales NOOO", impacto = 1000)
+    const argentinos = new Grupo(integrantes = [federico,lionel,andres])
+    argentinos.vivirEventoEnGrupo(semifinalMundial)
+
+    assert.equals(enojadisimo.intensidad(),9000)
+    assert.equals(federico.palabrotas().size(),2)
+    assert.that(andres.palabrotas().isEmpty())
+    assert.notThat(enojo.puedeLiberarse(federico))
+    assert.notThat(ansioso.puedeLiberarse(lionel))
+    assert.notThat(enojadisimo.puedeLiberarse(andres))
+}
